@@ -36,3 +36,6 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 #lock files
 bun.lock
 package-lock.json
+
+#Prisma
+src/infrastructure/external/database/generated/prisma
