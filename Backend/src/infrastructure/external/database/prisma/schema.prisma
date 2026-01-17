@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client"
   output   = "../generated/prisma"
@@ -13,57 +7,51 @@ datasource db {
   provider = "postgresql"
 }
 
-
 model User {
-  id              String    @id @default(uuid())
-  username        String    @unique
-  email           String    @unique
+  id              String        @id @default(uuid())
+  username        String        @unique
+  email           String        @unique
   password        String
-  profile_picture Bytes?
-  status          String    @default("offline")
+  profile_picture String?
+  status          String        @default("offline")
   last_seen       DateTime?
-  created_at      DateTime  @default(now())
-  updated_at      DateTime? @updatedAt
-
-  messages     Message[]
-  participants Participant[]
+  created_at      DateTime      @default(now())
+  updated_at      DateTime?     @updatedAt
+  messages        Message[]
+  participants    Participant[]
 }
 
 model Chat {
-  id         String   @id @default(uuid())
-  is_group   Boolean  @default(false)
-  group_name String?
-  created_at DateTime @default(now())
-
+  id           String        @id @default(uuid())
+  is_group     Boolean       @default(false)
+  group_name   String?
+  created_at   DateTime      @default(now())
   messages     Message[]
   participants Participant[]
 }
 
 model Participant {
-  id              String       @id @default(uuid())
-  user            User         @relation(fields: [user_id], references: [id])
-  user_id         String
-  chat    Chat @relation(fields: [chat_id], references: [id])
-  chat_id String
-  is_admin        Boolean      @default(false)
+  id       String  @id @default(uuid())
+  user_id  String
+  chat_id  String
+  is_admin Boolean @default(false)
+  chat     Chat    @relation(fields: [chat_id], references: [id])
+  user     User    @relation(fields: [user_id], references: [id])
 
   @@unique([user_id, chat_id])
 }
 
 model Message {
-  id              String       @id @default(uuid())
-  content         String
-  type            String?      @default("text")
-  file_url        String?
-  created_at      DateTime     @default(now())
-  
-  sender          User         @relation(fields: [sender_id], references: [id])
-  sender_id       String
-  
-  chat    Chat @relation(fields: [chat_id], references: [id])
-  chat_id String
+  id         String   @id @default(uuid())
+  content    String
+  type       String?  @default("text")
+  file_url   String?
+  created_at DateTime @default(now())
+  sender_id  String
+  chat_id    String
+  is_readed  Boolean  @default(false)
+  chat       Chat     @relation(fields: [chat_id], references: [id])
+  sender     User     @relation(fields: [sender_id], references: [id])
 
-  is_readed       Boolean      @default(false)
-  
   @@index([chat_id, created_at])
 }
