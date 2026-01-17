@@ -19,12 +19,13 @@ const socket_server = new Server(node_server, { connectionStateRecovery: {} });
 
 server.use(cors(cors_options));
 server.use(morgan("tiny"));
+server.use(express.json());
 
 socket_server.on("connection", () => {
   console.log("An user has connected");
 });
 
-server.get("/", index_router);
+server.use("/", index_router);
 
 node_server.listen(PORT, () => {
   console.log(`server running on http://localhost:${PORT}`);
