@@ -1,4 +1,4 @@
-import type { User_repository } from "../../../domain/repositories/user.repository";
+import type { user_repository } from "../../../domain/repositories/user.repository";
 import { failure, success } from "../../../domain/result/result-pattern";
 import type { user_login_dto } from "../../dto/auth.dto";
 import { compare_password_service } from "../../services/auth/compare-passwords.service";
@@ -9,7 +9,7 @@ export class login_use_case {
   private readonly generate_token_service: generate_token_service;
   private readonly compare_password_service: compare_password_service;
 
-  constructor(user_repository: User_repository) {
+  constructor(user_repository: user_repository) {
     this.user_repository = user_repository;
     this.generate_token_service = new generate_token_service();
     this.compare_password_service = new compare_password_service();
@@ -17,7 +17,7 @@ export class login_use_case {
 
   async run(user_data: user_login_dto) {
     const user = await this.user_repository.find_by_username(
-      user_data.username
+      user_data.username,
     );
 
     if (!user) {
@@ -26,7 +26,7 @@ export class login_use_case {
 
     const pass = await this.compare_password_service.run(
       user_data.password,
-      user.password
+      user.password,
     );
 
     if (!pass.succes) {
@@ -41,7 +41,7 @@ export class login_use_case {
 
     let response = {
       user: user,
-      token: token,
+      token: token.data,
     };
 
     return success(response);
