@@ -6,6 +6,7 @@ import morgan from "morgan";
 import { cors_options } from "./src/infrastructure/config/server/cors.config";
 import { not_found_handler } from "./src/presentation/middlewares/404-handler";
 import { index_router } from "./src/presentation/routes/index.route";
+import { PORT } from "./src/infrastructure/config/server/env";
 
 //create express server
 const server = express();
@@ -22,8 +23,6 @@ server.use(morgan("tiny"));
 socket_server.on("connection", () => {
   console.log("An user has connected");
 });
-
-const PORT = process.env.PORT || "3001";
 
 server.get("/", index_router);
 
