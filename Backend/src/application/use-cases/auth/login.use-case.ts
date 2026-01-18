@@ -16,9 +16,7 @@ export class login_use_case {
   }
 
   async run(user_data: user_login_dto) {
-    const user = await this.user_repository.find_by_username(
-      user_data.username,
-    );
+    const user = await this.user_repository.find_by_email(user_data.email);
 
     if (!user) {
       return failure("User not found");

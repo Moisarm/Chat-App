@@ -1,5 +1,5 @@
 export interface user_login_dto {
-  username: string;
+  email: string;
   password: string;
 }
 
