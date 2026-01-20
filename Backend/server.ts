@@ -7,6 +7,7 @@ import { cors_options } from "./src/infrastructure/config/server/cors.config";
 import { not_found_handler } from "./src/presentation/middlewares/404-handler";
 import { index_router } from "./src/presentation/routes/index.route";
 import { PORT } from "./src/infrastructure/config/server/env";
+import { socket_module } from "./src/presentation/sockets/websocket.module";
 
 //create express server
 const server = express();
@@ -15,15 +16,11 @@ const server = express();
 const node_server = createServer(server);
 
 //Create socket.io server with the instance of the node one
-const socket_server = new Server(node_server, { connectionStateRecovery: {} });
+socket_module.init(node_server); //This return the instance of the io so i can use it later
 
 server.use(cors(cors_options));
 server.use(morgan("tiny"));
 server.use(express.json());
-
-socket_server.on("connection", () => {
-  console.log("An user has connected");
-});
 
 server.use("/", index_router);
 

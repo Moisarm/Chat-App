@@ -4,7 +4,7 @@
   "type": "module",
   "author": "Moisarm",
   "license": "MIT",
-  "description": "Realtime chat app Backend developed on Bun, Typescript, express",
+  "description": "Realtime chat app Backend developed on Bun, Typescript, express, by Moisarm",
   "repository": {
     "type": "git",
     "url": "https://github.com/Moisarm/Chat-App"
@@ -30,6 +30,7 @@
     "@prisma/adapter-pg": "^7.2.0",
     "@prisma/client": "^7.2.0",
     "bcrypt": "^6.0.0",
+    "class-transformer": "^0.5.1",
     "class-validator": "^0.14.3",
     "cors": "^2.8.5",
     "express": "^5.2.1",
