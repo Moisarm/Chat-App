@@ -1,8 +1,8 @@
 import express, { type Request, type Response } from "express";
-import { Server } from "socket.io";
 import { createServer } from "node:http";
 import cors from "cors";
 import morgan from "morgan";
+import cookieParser from "cookie-parser";
 import { cors_options } from "./src/infrastructure/config/server/cors.config";
 import { not_found_handler } from "./src/presentation/middlewares/404-handler";
 import { index_router } from "./src/presentation/routes/index.route";
@@ -20,6 +20,7 @@ socket_module.init(node_server); //This return the instance of the io so i can u
 
 server.use(cors(cors_options));
 server.use(morgan("tiny"));
+server.use(cookieParser());
 server.use(express.json());
 
 server.use("/", index_router);
