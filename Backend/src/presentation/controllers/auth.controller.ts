@@ -1,6 +1,7 @@
 import { response } from "express";
 import type {
   register_dto,
+  update_user_dto,
   user_login_dto,
 } from "../../application/dto/auth.dto";
 import { login_use_case } from "../../application/use-cases/auth/login.use-case";
@@ -8,6 +9,7 @@ import { register_use_case } from "../../application/use-cases/auth/register.use
 import { auth_repository_implemented } from "../../infrastructure/repositories/auth.repository";
 import { user_repository_implemented } from "../../infrastructure/repositories/user.repository";
 import type { User } from "../../domain/entities/user.entity";
+import { update_user_use_case } from "../../application/use-cases/auth/update-user.use-case";
 
 export class auth_controller {
   private readonly auth_repository = new auth_repository_implemented();
@@ -67,6 +69,27 @@ export class auth_controller {
         status: 200,
         message: `Welcome ${response.data.user.username}`,
         data,
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async update(token: string, update_user_data: update_user_dto) {
+    const update = new update_user_use_case(
+      this.auth_repository,
+      this.user_repository,
+    );
+    try {
+      const response = await update.run(token, update_user_data);
+      if (!response.succes) {
+        return response.error;
+      }
+
+      return {
+        status: 201,
+        message: `${response.data.username} updated successfully`,
+        data: response.data,
       };
     } catch (error) {
       throw error;
