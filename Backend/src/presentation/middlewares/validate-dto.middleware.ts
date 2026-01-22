@@ -10,7 +10,8 @@ export function validate_class<T extends object>(
     res: Response,
     next: NextFunction,
   ): Promise<void> => {
-    const instance = plainToInstance(dtoClass, req.body);
+    const body = req.body || {};
+    const instance = plainToInstance(dtoClass, body);
     const errors = await validate(instance);
 
     if (errors.length > 0) {
@@ -21,7 +22,7 @@ export function validate_class<T extends object>(
 
       res.status(400).json({
         status: 400,
-        message: "Error de validación",
+        message: "Validation error",
         errors: errorMessages,
       });
 
