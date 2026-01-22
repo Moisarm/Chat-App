@@ -1,11 +1,13 @@
 import type { User } from "./user.entity";
 
 export interface Message {
-  id: String;
+  id: string;
   chat_id: string;
-  text: String;
-  media?: Blob;
+  content: string;
+  type?: string;
+  file_url?: string;
   created_at: Date;
   updated_at?: Date;
-  sent_by: User;
+  sender_id: string;
+  is_readed: boolean;
 }
