@@ -1,4 +1,11 @@
-import { IsEmail, IsNotEmpty, IsString, min, MinLength } from "class-validator";
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  min,
+  MinLength,
+} from "class-validator";
 import type {
   register_dto,
   update_user_dto,
@@ -35,17 +42,21 @@ export class register_validation implements register_dto {
 }
 
 export class update_user_validation implements update_user_dto {
+  @IsOptional()
   @IsString()
   username?: string | undefined;
 
+  @IsOptional()
   @IsString()
   @IsEmail()
   email?: string | undefined;
 
+  @IsOptional()
   @IsString()
   @MinLength(8)
   password?: string | undefined;
 
+  @IsOptional()
   @IsString()
   profile_picture?: string | undefined;
 }
