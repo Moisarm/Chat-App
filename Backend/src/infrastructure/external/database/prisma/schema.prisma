@@ -44,12 +44,12 @@ model Participant {
 model Message {
   id         String   @id @default(uuid())
   content    String
-  type       String?  @default("text")
+  type       String?  @default("text") 
   file_url   String?
   created_at DateTime @default(now())
   sender_id  String
   chat_id    String
-  is_readed  Boolean  @default(false)
+  is_read  Boolean  @default(false)
   chat       Chat     @relation(fields: [chat_id], references: [id])
   sender     User     @relation(fields: [sender_id], references: [id])
 
