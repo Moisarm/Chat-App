@@ -1,31 +1,109 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Chat App API",
+    "title": "Write it API",
     "version": "1.0.0",
     "description": "API to a chat app developed with Typescript"
   },
   "paths": {
-    "/users/all": {
-      "get": {
-        "summary": "Retrieve all users",
+    "/auth/register": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Register a new user",
+        "operationId": "registerUser",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RegisterDTO" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "User registered successfully" },
+          "400": { "description": "Bad Request - Validation failed" }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "User login",
+        "operationId": "loginUser",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/LoginDTO" }
+            }
+          }
+        },
         "responses": {
           "200": {
-            "description": "User list",
-            "content": {
-              "application/json": {
+            "description": "Login successful, returns HttpOnly Access-Token cookie",
+            "headers": {
+              "Set-Cookie": {
+                "description": "Session cookie",
                 "schema": {
-                  "type": "array",
-                  "items": { "$ref": "#/components/schemas/User" }
+                  "type": "string",
+                  "example": "Access-Token=abc123...; HttpOnly; Max-Age=3600"
                 }
               }
             }
+          },
+          "401": { "description": "Unauthorized - Invalid credentials" }
+        }
+      }
+    },
+    "/auth/update": {
+      "put": {
+        "tags": ["Authentication"],
+        "summary": "Update user profile",
+        "security": [{ "cookieAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UpdateUserDTO" }
+            }
           }
+        },
+        "responses": {
+          "200": { "description": "User updated successfully" },
+          "401": { "description": "Unauthorized - Missing or invalid token" }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Logout user",
+        "security": [{ "cookieAuth": [] }],
+        "responses": {
+          "200": { "description": "Session closed and cookie cleared" }
+        }
+      }
+    },
+    "/auth/delete": {
+      "delete": {
+        "tags": ["Authentication"],
+        "summary": "Delete user account",
+        "security": [{ "cookieAuth": [] }],
+        "responses": {
+          "200": { "description": "Account deleted successfully" },
+          "401": { "description": "Unauthorized" }
         }
       }
     }
   },
   "components": {
+    "securitySchemes": {
+      "cookieAuth": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "Access-Token"
+      }
+    },
     "schemas": {
       "User": {
         "type": "object",
@@ -77,6 +155,43 @@
           "sender_id": { "type": "string", "format": "uuid" },
           "chat_id": { "type": "string", "format": "uuid" },
           "is_read": { "type": "boolean", "default": false }
+        }
+      },
+
+      "LoginDTO": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "user@test.com"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "example": "pass1234"
+          }
+        }
+      },
+      "RegisterDTO": {
+        "type": "object",
+        "required": ["email", "username", "password"],
+        "properties": {
+          "email": { "type": "string", "format": "email" },
+          "username": { "type": "string" },
+          "password": { "type": "string", "format": "password" },
+          "profile_picture": { "type": "string", "nullable": true }
+        }
+      },
+      "UpdateUserDTO": {
+        "type": "object",
+        "description": "Every property is optional",
+        "properties": {
+          "email": { "type": "string", "format": "email" },
+          "username": { "type": "string" },
+          "password": { "type": "string", "format": "password" },
+          "profile_picture": { "type": "string", "nullable": true }
         }
       }
     }
