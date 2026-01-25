@@ -10,6 +10,7 @@ import { auth_repository_implemented } from "../../infrastructure/repositories/a
 import { user_repository_implemented } from "../../infrastructure/repositories/user.repository";
 import type { User } from "../../domain/entities/user.entity";
 import { update_user_use_case } from "../../application/use-cases/auth/update-user.use-case";
+import { delete_user_use_case } from "../../application/use-cases/auth/delete-user.use-case";
 
 export class auth_controller {
   private readonly auth_repository = new auth_repository_implemented();
@@ -90,6 +91,29 @@ export class auth_controller {
         status: 201,
         message: `${response.data.username} updated successfully`,
         data: response.data,
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async delete_account(token: string) {
+    try {
+      const _delete = new delete_user_use_case(
+        this.auth_repository,
+        this.user_repository,
+      );
+      const response = await _delete.run(token);
+
+      if (!response.succes) {
+        return {
+          status: 500,
+          message: response.error,
+        };
+      }
+      return {
+        status: 200,
+        message: response.data,
       };
     } catch (error) {
       throw error;
