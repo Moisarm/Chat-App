@@ -107,3 +107,18 @@ auth_router.post(
     });
   },
 );
+
+auth_router.delete(
+  "/delete",
+  verify,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const token = req.cookies["Access-Token"];
+      const response = await controller.delete_account(token);
+
+      res.status(response.status).json(response);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
