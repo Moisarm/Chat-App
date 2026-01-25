@@ -8,6 +8,7 @@ import { not_found_handler } from "./src/presentation/middlewares/404-handler";
 import { index_router } from "./src/presentation/routes/index.route";
 import { PORT } from "./src/infrastructure/config/server/env";
 import { socket_module } from "./src/presentation/sockets/websocket.module";
+import { scalar_middleware } from "./src/presentation/middlewares/docs/scalar.middleware";
 
 //create express server
 const server = express();
@@ -24,9 +25,11 @@ server.use(cookieParser());
 server.use(express.json());
 
 server.use("/", index_router);
+server.use("/docs", scalar_middleware);
 
 node_server.listen(PORT, () => {
   console.log(`server running on http://localhost:${PORT}`);
+  console.log(`Documentation is running on http://localhost:${PORT}/docs`);
 });
 
 server.use(not_found_handler);
