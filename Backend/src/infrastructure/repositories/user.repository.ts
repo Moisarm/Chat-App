@@ -26,6 +26,17 @@ export class user_repository_implemented implements user_repository {
     return user as User;
   }
 
+  async find_many_by_id(users_id: string[]): Promise<User[]> {
+    const users = await prisma.user.findMany({
+      where: {
+        id: { in: users_id },
+      },
+      select: { id: true },
+    });
+
+    return users as User[];
+  }
+
   async get_users(): Promise<User[]> {
     const users = await prisma.user.findMany();
 

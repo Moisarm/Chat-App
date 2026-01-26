@@ -20,54 +20,62 @@ export class create_chat_use_case {
   }
 
   async run(token: string, data: create_chat_dto) {
-    if (!data.target_user) {
-      let fail = {
-        status: 400,
-        message: "User must be provided",
-        error: "Bad Request",
-      };
-      return failure(fail);
+    try {
+      {
+        if (!data.target_user) {
+          let fail = {
+            status: 400,
+            message: "User must be provided",
+            error: "Bad Request",
+          };
+          return failure(fail);
+        }
+
+        const user = await this.user_repository.find_by_username(
+          data.target_user,
+        );
+
+        if (!user) {
+          let fail = {
+            status: 404,
+            message: "User not found",
+            error: "Not Found",
+          };
+          return failure(fail);
+        }
+
+        const decoded_token = this.decode_token_service.run(token);
+        const current_user_id = decoded_token.user_id;
+
+        const existing = await this.chat_repository.find_private_chat(
+          current_user_id,
+          user.id,
+        );
+
+        if (existing) {
+          let response = {
+            status: 200,
+            message: "Chat already exists",
+            data: existing,
+          };
+          return success(response);
+        }
+
+        data.target_user = user.id;
+        const new_chat = await this.chat_repository.create_chat(
+          current_user_id,
+          data,
+        );
+
+        let response = {
+          status: 201,
+          message: "Chat created successfully",
+          data: new_chat,
+        };
+        return success(response);
+      }
+    } catch (error) {
+      throw error;
     }
-
-    const user = await this.user_repository.find_by_username(data.target_user);
-
-    if (!user) {
-      let fail = {
-        status: 404,
-        message: "User not found",
-        error: "Not Found",
-      };
-      return failure(fail);
-    }
-
-    const decoded_token = this.decode_token_service.run(token);
-    const current_user_id = decoded_token.user_id;
-
-    const existing = await this.chat_repository.find_private_chat(
-      current_user_id,
-      user.id,
-    );
-
-    if (existing) {
-      let response = {
-        status: 200,
-        message: "Chat already exists",
-        data: existing,
-      };
-      return success(response);
-    }
-
-    data.target_user = user.id;
-    const new_chat = await this.chat_repository.create_chat(
-      current_user_id,
-      data,
-    );
-
-    let response = {
-      status: 201,
-      message: "Chat created successfully",
-      data: new_chat,
-    };
-    return success(response);
   }
 }

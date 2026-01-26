@@ -36,10 +36,10 @@ export class auth_repository_implemented implements auth_repository {
     return updated_user as User;
   }
 
-  async delete_account(user_data: string): Promise<null> {
+  async delete_account(user_id: string): Promise<null> {
     await prisma.user.delete({
       where: {
-        email: user_data,
+        id: user_id,
       },
     });
 
