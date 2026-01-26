@@ -1,0 +1,73 @@
+import type { chat_repository } from "../../../domain/repositories/chat.repository";
+import type { user_repository } from "../../../domain/repositories/user.repository";
+import { failure, success } from "../../../domain/result/result-pattern";
+import type { create_group_dto } from "../../dto/chat.dto";
+import { decode_token_service } from "../../services/auth/decode-token.service";
+
+export class create_group_use_case {
+  private readonly user_repository: user_repository;
+  private readonly chat_repository: chat_repository;
+  private readonly decode_token_service: decode_token_service;
+
+  constructor(
+    user_repository: user_repository,
+    chat_repository: chat_repository,
+  ) {
+    this.chat_repository = chat_repository;
+    this.user_repository = user_repository;
+    this.decode_token_service = new decode_token_service();
+  }
+
+  async run(token: string, data: create_group_dto) {
+    try {
+      const decoded = this.decode_token_service.run(token);
+
+      if (data.users.length == 0) {
+        let fail = {
+          status: 400,
+          message: "At least one user must be added to create a group",
+          error: "Bad Request",
+        };
+        return failure(fail);
+      }
+
+      const sanitize_users = [...new Set([...data.users])];
+
+      const users = await this.user_repository.find_many_by_id(sanitize_users);
+
+      if (users.length !== sanitize_users.length) {
+        let fail = {
+          status: 404,
+          message: "One or more users not found",
+          error: "Not Found",
+        };
+        return failure(fail);
+      }
+
+      if (!data.group_name) {
+        data = {
+          ...data,
+          group_name: "New Group",
+        };
+      }
+
+      data = {
+        ...data,
+        users: sanitize_users,
+      };
+
+      const new_group = await this.chat_repository.create_group(
+        decoded.user_id,
+        data,
+      );
+
+      return success({
+        status: 201,
+        message: "Group created successfully",
+        data: new_group,
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+}
