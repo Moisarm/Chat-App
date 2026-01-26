@@ -94,6 +94,39 @@
           "401": { "description": "Unauthorized" }
         }
       }
+    },
+
+    "/chat/": {
+      "get": {
+        "tags": ["Chat"],
+        "summary": "Get all chats for the authenticated user",
+        "security": [{ "cookieAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "List of chats",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Chat" }
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" }
+        }
+      }
+    },
+    "/chat/new": {
+      "post": {
+        "tags": ["Chat"],
+        "summary": "Create a new chat",
+        "security": [{ "cookieAuth": [] }],
+        "responses": {
+          "201": { "description": "Chat created successfully" },
+          "401": { "description": "Unauthorized" }
+        }
+      }
     }
   },
   "components": {
