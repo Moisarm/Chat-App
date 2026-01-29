@@ -1,18 +1,20 @@
+import Contacts from "./Contacts";
+
 export default function Sidebar() {
   return (
-    <aside
-      style={{
-        width: 300,
-        borderRight: "1px solid #ddd",
-        padding: "1rem",
-      }}
-    >
-      <h3>Chats</h3>
-      <ul>
-        <li>Juan</li>
-        <li>Equipo</li>
-        <li>Soporte</li>
-      </ul>
+    <aside className="w-300px border-r border-gray-300 p-4 flex flex-col h-screen overflow-y-auto">
+      {/* Header */}
+      <div className="mb-4 fixed">
+        <h3 className="text-lg font-semibold">Chats</h3>
+      </div>
+
+      {/* Espacio flexible */}
+      <div className="flex-1"></div>
+
+      {/* Contacts abajo */}
+      <div className="mt-auto">
+        <Contacts />
+      </div>
     </aside>
   );
 }
