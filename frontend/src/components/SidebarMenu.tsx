@@ -11,6 +11,7 @@ import {
   FingerPrintIcon,
   SquaresPlusIcon,
 } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router-dom";
 
 const solutions = [
   {
@@ -51,6 +52,28 @@ const callsToAction = [
 ];
 
 export default function SidebarMenu() {
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    try {
+      const token = localStorage.getItem("access_token");
+
+      await fetch(`${import.meta.env.VITE_API_URL}/auth/logout`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch (err) {
+      console.warn("Error en logout, cerrando sesión igual");
+    } finally {
+      // ✅ Limpiar sesión SIEMPRE
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("user");
+
+      // ✅ Volver al login
+      navigate("/");
+    }
+  };
   return (
     <Popover className="relative">
       <PopoverButton className="p-2 rounded-md hover:bg-slate-800 text-white">
@@ -86,6 +109,7 @@ export default function SidebarMenu() {
               <a
                 key={item.name}
                 href={item.href}
+                onClick={handleLogout}
                 className="flex items-center justify-center gap-x-2 p-3 font-semibold text-white hover:bg-gray-700/50"
               >
                 <item.icon className="size-5 text-gray-400" />
