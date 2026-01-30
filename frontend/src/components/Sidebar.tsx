@@ -1,18 +1,16 @@
 import Contacts from "./Contacts";
+import SidebarMenu from "./SidebarMenu";
 
 export default function Sidebar() {
   return (
-    <aside className="w-300px border-r border-gray-300 p-4 flex flex-col h-screen overflow-y-auto">
-      {/* Header */}
-      <div className="mb-4 fixed">
-        <h3 className="text-lg font-semibold">Chats</h3>
+    <aside className="w-300px border-r border-gray-300 p-4 flex flex-col h-screen">
+      {/* Header sticky */}
+      <div className="sticky top-0 z-20 bg-slate-950 pb-2">
+        <SidebarMenu />
       </div>
 
-      {/* Espacio flexible */}
-      <div className="flex-1"></div>
-
-      {/* Contacts abajo */}
-      <div className="mt-auto">
+      {/* Contacts con scroll */}
+      <div className="flex-1 overflow-y-auto mt-4">
         <Contacts />
       </div>
     </aside>
