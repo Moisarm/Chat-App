@@ -13,6 +13,13 @@ export default function Home() {
 
       {/* Main */}
       <main className="flex-1 flex flex-col">
+        {/* Top bar */}
+        <header className="h-16 flex items-center px-6 border-b border-slate-800 bg-slate-950">
+          <span className="ml-auto text-sm text-slate-300">
+            {user?.username}
+          </span>
+        </header>
+
         <div className="flex-1 overflow-y-auto p-6">
           <Chat />
         </div>

@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 type Props = {
   onSwitch: () => void;
@@ -17,6 +18,8 @@ type FormData = z.infer<typeof schema>;
 
 export default function Login({ onSwitch }: Props) {
   const navigate = useNavigate();
+  const { dispatch } = useAuth();
+
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -39,11 +42,21 @@ export default function Login({ onSwitch }: Props) {
 
       const responseData = await res.json();
 
-      // ✅ Guardar sesión
-      localStorage.setItem("access_token", responseData.data.token);
-      localStorage.setItem("user", JSON.stringify(responseData.data.user));
+      // extraer datos
+      const user = responseData.data.user;
+      const token = responseData.data.token;
 
-      // ✅ Ir al home
+      // persistencia
+      localStorage.setItem("access_token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+
+      // estado global
+      dispatch({
+        type: "LOGIN",
+        payload: { user, token },
+      });
+
+      // navegación
       navigate("/home");
     } catch (err) {
       console.error(err);

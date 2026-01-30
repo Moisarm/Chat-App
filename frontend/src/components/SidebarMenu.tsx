@@ -12,39 +12,7 @@ import {
   SquaresPlusIcon,
 } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
-
-const solutions = [
-  {
-    name: "Analytics",
-    description: "Get a better understanding of your traffic",
-    href: "#",
-    icon: ChartPieIcon,
-  },
-  {
-    name: "Engagement",
-    description: "Speak directly to your customers",
-    href: "#",
-    icon: CursorArrowRaysIcon,
-  },
-  {
-    name: "Security",
-    description: "Your customers' data will be safe and secure",
-    href: "#",
-    icon: FingerPrintIcon,
-  },
-  {
-    name: "Integrations",
-    description: "Connect with third-party tools",
-    href: "#",
-    icon: SquaresPlusIcon,
-  },
-  {
-    name: "Automations",
-    description: "Build strategic funnels that will convert",
-    href: "#",
-    icon: ArrowPathIcon,
-  },
-];
+import { useAuth } from "../context/AuthContext";
 
 const callsToAction = [
   { name: "Watch demo", href: "#", icon: PlayCircleIcon },
@@ -52,6 +20,8 @@ const callsToAction = [
 ];
 
 export default function SidebarMenu() {
+  // Usuario desde el global state
+  const { state } = useAuth();
   const navigate = useNavigate();
   const handleLogout = async () => {
     try {
@@ -74,6 +44,38 @@ export default function SidebarMenu() {
       navigate("/");
     }
   };
+  const solutions = [
+    {
+      name: state.user?.username ?? "Usuario",
+      description: "Get a better understanding of your traffic",
+      href: "#",
+      icon: ChartPieIcon,
+    },
+    {
+      name: "Engagement",
+      description: "Speak directly to your customers",
+      href: "#",
+      icon: CursorArrowRaysIcon,
+    },
+    {
+      name: "Security",
+      description: "Your customers' data will be safe and secure",
+      href: "#",
+      icon: FingerPrintIcon,
+    },
+    {
+      name: "Integrations",
+      description: "Connect with third-party tools",
+      href: "#",
+      icon: SquaresPlusIcon,
+    },
+    {
+      name: "Automations",
+      description: "Build strategic funnels that will convert",
+      href: "#",
+      icon: ArrowPathIcon,
+    },
+  ];
   return (
     <Popover className="relative">
       <PopoverButton className="p-2 rounded-md hover:bg-slate-800 text-white">
