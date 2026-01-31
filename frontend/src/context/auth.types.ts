@@ -8,8 +8,9 @@ export type AuthState = {
   user: User | null;
   token: string | null;
   isAuthenticated: boolean;
+  message: string | null;
 };
 
 export type AuthAction =
-  | { type: "LOGIN"; payload: { user: User; token: string } }
+  | { type: "LOGIN"; payload: { user: User; token: string; message: string } }
   | { type: "LOGOUT" };

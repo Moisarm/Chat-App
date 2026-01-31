@@ -4,6 +4,7 @@ export const authInitialState: AuthState = {
   user: null,
   token: null,
   isAuthenticated: false,
+  message: "",
 };
 
 export function authReducer(state: AuthState, action: AuthAction): AuthState {
@@ -13,6 +14,7 @@ export function authReducer(state: AuthState, action: AuthAction): AuthState {
         user: action.payload.user,
         token: action.payload.token,
         isAuthenticated: true,
+        message: action.payload.message,
       };
 
     case "LOGOUT":

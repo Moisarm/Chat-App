@@ -23,6 +23,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         payload: {
           token,
           user: JSON.parse(user),
+          message: "",
         },
       });
     }

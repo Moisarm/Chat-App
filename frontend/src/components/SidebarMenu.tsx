@@ -20,9 +20,9 @@ const callsToAction = [
 ];
 
 export default function SidebarMenu() {
-  // Usuario desde el global state
   const { state } = useAuth();
   const navigate = useNavigate();
+
   const handleLogout = async () => {
     try {
       const token = localStorage.getItem("access_token");
@@ -33,21 +33,20 @@ export default function SidebarMenu() {
           Authorization: `Bearer ${token}`,
         },
       });
-    } catch (err) {
+    } catch {
       console.warn("Error en logout, cerrando sesión igual");
     } finally {
-      // ✅ Limpiar sesión SIEMPRE
       localStorage.removeItem("access_token");
       localStorage.removeItem("user");
-
-      // ✅ Volver al login
       navigate("/");
     }
   };
+
+  // 👇 solutions dinámico usando el estado global
   const solutions = [
     {
       name: state.user?.username ?? "Usuario",
-      description: "Get a better understanding of your traffic",
+      description: state.message ?? "Sesión iniciada",
       href: "#",
       icon: ChartPieIcon,
     },
@@ -76,6 +75,7 @@ export default function SidebarMenu() {
       icon: ArrowPathIcon,
     },
   ];
+
   return (
     <Popover className="relative">
       <PopoverButton className="p-2 rounded-md hover:bg-slate-800 text-white">
@@ -86,7 +86,7 @@ export default function SidebarMenu() {
         transition
         className="absolute left-0 z-20 mt-3 w-screen max-w-md bg-transparent px-2 transition data-closed:translate-y-1 data-closed:opacity-0"
       >
-        <div className="overflow-hidden rounded-2xl bg-gray-800 text-sm  outline-1 outline-white/10">
+        <div className="overflow-hidden rounded-2xl bg-gray-800 text-sm outline-1 outline-white/10">
           <div className="p-4">
             {solutions.map((item) => (
               <div

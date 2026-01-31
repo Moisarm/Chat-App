@@ -45,6 +45,7 @@ export default function Login({ onSwitch }: Props) {
       // extraer datos
       const user = responseData.data.user;
       const token = responseData.data.token;
+      const message = responseData.message;
 
       // persistencia
       localStorage.setItem("access_token", token);
@@ -53,7 +54,7 @@ export default function Login({ onSwitch }: Props) {
       // estado global
       dispatch({
         type: "LOGIN",
-        payload: { user, token },
+        payload: { user, token, message },
       });
 
       // navegación
