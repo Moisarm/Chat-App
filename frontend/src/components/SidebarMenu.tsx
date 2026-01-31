@@ -14,11 +14,6 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-const callsToAction = [
-  { name: "Watch demo", href: "#", icon: PlayCircleIcon },
-  { name: "Cerrar Sesión", href: "#", icon: ArrowLeftStartOnRectangleIcon },
-];
-
 export default function SidebarMenu() {
   const { state } = useAuth();
   const navigate = useNavigate();
@@ -107,17 +102,20 @@ export default function SidebarMenu() {
           </div>
 
           <div className="grid grid-cols-2 divide-x divide-white/10 bg-gray-700/50">
-            {callsToAction.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                onClick={handleLogout}
-                className="flex items-center justify-center gap-x-2 p-3 font-semibold text-white hover:bg-gray-700/50"
-              >
-                <item.icon className="size-5 text-gray-400" />
-                {item.name}
-              </a>
-            ))}
+            <a
+              href="#"
+              className="flex items-center justify-center gap-x-2 p-3 font-semibold text-white hover:bg-gray-700/50"
+            >
+              <PlayCircleIcon className="size-5 text-gray-400" />
+              Watch demo
+            </a>
+            <a
+              onClick={handleLogout}
+              className="flex items-center justify-center gap-x-2 p-3 font-semibold text-white hover:bg-gray-700/50"
+            >
+              <ArrowLeftStartOnRectangleIcon className="size-5 text-gray-400" />
+              Cerrar sesión
+            </a>
           </div>
         </div>
       </PopoverPanel>
