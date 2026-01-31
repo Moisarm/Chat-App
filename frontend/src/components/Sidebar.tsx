@@ -3,7 +3,7 @@ import SidebarMenu from "./SidebarMenu";
 
 export default function Sidebar() {
   return (
-    <aside className="w-300px border-r border-gray-300 p-4 flex flex-col h-screen">
+    <aside className="w-300px  p-4 flex flex-col h-screen">
       {/* Header sticky */}
       <div className="sticky top-0 z-20 bg-slate-950 pb-2">
         <SidebarMenu />

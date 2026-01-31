@@ -12,7 +12,7 @@ export default function Home() {
       </aside>
 
       {/* Main */}
-      <main className="flex-1 flex flex-col">
+      <main className="flex-1 flex flex-col ">
         {/* Top bar */}
         <header className="h-16 flex items-center px-6 border-b border-slate-800 bg-slate-950">
           <span className="ml-auto text-sm text-slate-300">
@@ -20,7 +20,7 @@ export default function Home() {
           </span>
         </header>
 
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto   flex">
           <Chat />
         </div>
       </main>
