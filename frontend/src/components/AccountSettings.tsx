@@ -37,6 +37,26 @@ export default function AccountSettings() {
       danger: true,
     },
   ];
+  const deleteAccount = async () => {
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/delete`, {
+        method: "DELETE",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error("Error al eliminar la cuenta");
+      }
+
+      // éxito → cerrar sesión o redirigir
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
@@ -110,7 +130,10 @@ export default function AccountSettings() {
                   Cancelar
                 </button>
 
-                <button className="px-4 py-2 text-sm rounded-md bg-red-500/10 text-red-400 hover:bg-red-500/20">
+                <button
+                  onClick={deleteAccount}
+                  className="px-4 py-2 text-sm rounded-md bg-red-500/10 text-red-400 hover:bg-red-500/20"
+                >
                   Eliminar
                 </button>
               </div>
