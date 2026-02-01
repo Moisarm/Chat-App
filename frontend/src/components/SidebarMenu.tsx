@@ -3,7 +3,7 @@ import {
   ArrowLeftStartOnRectangleIcon,
   Bars3Icon,
 } from "@heroicons/react/24/outline";
-import { Cog6ToothIcon, PlayCircleIcon } from "@heroicons/react/20/solid";
+import { Cog6ToothIcon } from "@heroicons/react/20/solid";
 import {
   // ArrowPathIcon,
   ChartPieIcon,
@@ -11,7 +11,7 @@ import {
   // FingerPrintIcon,
   // SquaresPlusIcon,
 } from "@heroicons/react/24/outline";
-import { useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function SidebarMenu() {
@@ -42,7 +42,7 @@ export default function SidebarMenu() {
     {
       name: state.user?.username ?? "Usuario",
       description: state.message ?? "Sesión iniciada",
-      href: "#",
+      href: "settings",
       icon: ChartPieIcon,
     },
     // {
@@ -73,18 +73,19 @@ export default function SidebarMenu() {
 
   return (
     <Popover className="relative">
-      <PopoverButton className="p-2 rounded-md hover:bg-slate-800 text-white">
+      <PopoverButton className="p-2 rounded-md hover:bg-slate-800 text-white ">
         <Bars3Icon className="h-6 w-6" />
       </PopoverButton>
 
       <PopoverPanel
         transition
-        className="absolute left-0 z-20 mt-3 w-screen max-w-md bg-transparent px-2 transition data-closed:translate-y-1 data-closed:opacity-0"
+        className=" absolute left-0 z-20 mt-3 w-50% max-w-md bg-transparent px-2 transition data-closed:translate-y-1 data-closed:opacity-0 "
       >
         <div className="overflow-hidden rounded-2xl bg-gray-800 text-sm outline-1 outline-white/10">
           <div className="p-4">
             {solutions.map((item) => (
-              <div
+              <Link
+                to={item.href}
                 key={item.name}
                 className="group flex gap-x-4 rounded-lg p-3 hover:bg-white/5"
               >
@@ -92,30 +93,28 @@ export default function SidebarMenu() {
                   <item.icon className="size-5 text-gray-400 group-hover:text-white" />
                 </div>
                 <div>
-                  <a href={item.href} className="font-semibold text-white">
-                    {item.name}
-                  </a>
+                  <b className="font-semibold text-white">{item.name}</b>
                   <p className="text-gray-400 text-sm">{item.description}</p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
 
           <div className="grid grid-cols-2 divide-x divide-white/10 bg-gray-700/50">
-            <a
-              href="#"
+            <NavLink
+              to="settings"
               className="flex items-center justify-center gap-x-2 p-3 font-semibold text-white hover:bg-gray-700/50"
             >
               <Cog6ToothIcon className="size-5 text-gray-400" />
               Configuración
-            </a>
-            <a
+            </NavLink>
+            <button
               onClick={handleLogout}
               className="flex items-center justify-center gap-x-2 p-3 font-semibold text-white hover:bg-gray-700/50"
             >
               <ArrowLeftStartOnRectangleIcon className="size-5 text-gray-400" />
               Cerrar sesión
-            </a>
+            </button>
           </div>
         </div>
       </PopoverPanel>

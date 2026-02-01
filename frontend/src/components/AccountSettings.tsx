@@ -60,9 +60,9 @@ export default function AccountSettings() {
 
   return (
     <>
-      <div className="flex flex-col bg-slate-900 text-slate-100">
+      <div className="flex flex-col bg-slate-900 text-slate-100 ">
         {/* Top bar */}
-        <header className="flex items-center justify-between border-b border-slate-800 px-4 py-3">
+        <header className="flex items-center justify-between border-b border-slate-800 px-4 py-3 ">
           <button
             onClick={() => navigate(-1)}
             className="p-2 rounded-md hover:bg-slate-800"
@@ -78,7 +78,7 @@ export default function AccountSettings() {
         </header>
 
         {/* Profile */}
-        <div className="flex flex-col items-center gap-4 p-6">
+        <div className="flex flex-col items-center gap-4 p-6 ">
           <img
             src="https://i.pravatar.cc/120"
             alt="avatar"
@@ -92,7 +92,7 @@ export default function AccountSettings() {
         </div>
 
         {/* Settings */}
-        <div className="flex flex-col border-t border-slate-800">
+        <div className="flex flex-col border-t border-slate-800 ">
           {settingsItems.map(({ label, icon: Icon, onClick, danger }) => (
             <button
               key={label}

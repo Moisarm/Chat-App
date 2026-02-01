@@ -5,14 +5,14 @@ export default function Home() {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
   return (
-    <div className="flex h-screen w-screen bg-slate-900 text-slate-100">
+    <div className="flex h-full w-full bg-slate-900 text-slate-100 overflow-hidden">
       {/* Sidebar */}
-      <aside className="w-80 bg-slate-950 border-r border-slate-800 flex flex-col">
+      <aside className="w-100 bg-slate-950 border-r border-slate-800 flex flex-col ">
         <Sidebar />
       </aside>
 
       {/* Main */}
-      <main className="flex-1 flex flex-col ">
+      <main className="flex-1 flex flex-col  ">
         {/* Top bar */}
         <header className="h-16 flex items-center px-6 border-b border-slate-800 bg-slate-950">
           <span className="ml-auto text-sm text-slate-300">

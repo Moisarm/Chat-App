@@ -3,15 +3,15 @@ import Auth from "./pages/Auth";
 import Home from "./pages/Home";
 import PrivateRoute from "./routes/PrivateRoute";
 import AccountSettings from "./components/AccountSettings";
+import SidebarMenu from "./components/SidebarMenu";
+import Sidebar from "./components/Sidebar";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Ruta pública */}
         <Route path="/" element={<Auth />} />
 
-        {/* Ruta privada */}
         <Route
           path="/home"
           element={
@@ -19,9 +19,13 @@ function App() {
               <Home />
             </PrivateRoute>
           }
-        />
-        {/* Rutas internas de Home */}
-        <Route path="settings" element={<AccountSettings />} />
+        >
+          {/* Sidebar como layout interno */}
+          <Route element={<Sidebar />}>
+            <Route index element={<SidebarMenu />} />
+            <Route path="settings" element={<AccountSettings />} />
+          </Route>
+        </Route>
       </Routes>
     </BrowserRouter>
   );
