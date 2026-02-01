@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Auth from "./pages/Auth";
 import Home from "./pages/Home";
 import PrivateRoute from "./routes/PrivateRoute";
+import AccountSettings from "./components/AccountSettings";
 
 function App() {
   return (
@@ -19,6 +20,8 @@ function App() {
             </PrivateRoute>
           }
         />
+        {/* Rutas internas de Home */}
+        <Route path="settings" element={<AccountSettings />} />
       </Routes>
     </BrowserRouter>
   );

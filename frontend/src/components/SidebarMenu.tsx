@@ -3,13 +3,13 @@ import {
   ArrowLeftStartOnRectangleIcon,
   Bars3Icon,
 } from "@heroicons/react/24/outline";
-import { PlayCircleIcon } from "@heroicons/react/20/solid";
+import { Cog6ToothIcon, PlayCircleIcon } from "@heroicons/react/20/solid";
 import {
-  ArrowPathIcon,
+  // ArrowPathIcon,
   ChartPieIcon,
-  CursorArrowRaysIcon,
-  FingerPrintIcon,
-  SquaresPlusIcon,
+  // CursorArrowRaysIcon,
+  // FingerPrintIcon,
+  // SquaresPlusIcon,
 } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -106,8 +106,8 @@ export default function SidebarMenu() {
               href="#"
               className="flex items-center justify-center gap-x-2 p-3 font-semibold text-white hover:bg-gray-700/50"
             >
-              <PlayCircleIcon className="size-5 text-gray-400" />
-              Watch demo
+              <Cog6ToothIcon className="size-5 text-gray-400" />
+              Configuración
             </a>
             <a
               onClick={handleLogout}
