@@ -39,3 +39,6 @@ package-lock.json
 
 #Prisma
 src/infrastructure/external/database/generated/prisma
+
+#test files
+src/presentation/sockets/test.ts
