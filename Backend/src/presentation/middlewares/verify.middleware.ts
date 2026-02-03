@@ -16,9 +16,9 @@ export const verify = (req: Request, res: Response, next: NextFunction) => {
     const token = req.cookies["Access-Token"];
 
     if (!token) {
-      throw res.status(401).json({
+      return res.status(401).json({
         status: 401,
-        message: "Access token is missing",
+        message: "Access token is missing...",
         error: "Unauthorized",
       });
     }
@@ -27,11 +27,12 @@ export const verify = (req: Request, res: Response, next: NextFunction) => {
 
     req.user = data;
   } catch (error) {
-    console.error("Error en validacion de token:", error);
-    res.status(401).json({
+    console.error("Error en validacion de token:");
+
+    return res.status(401).json({
       status: 401,
-      message: "Not authenticated",
-      error: "Unathorized",
+      message: "Invalid or expired token",
+      error: "Unauthorized",
     });
   }
 
