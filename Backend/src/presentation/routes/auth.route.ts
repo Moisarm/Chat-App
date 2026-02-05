@@ -34,6 +34,7 @@ auth_router.post(
       if (response.data?.token) {
         res.cookie("Access-Token", response.data.token, {
           httpOnly: true,
+          sameSite: "lax",
           maxAge: 60 * 60 * 1000,
         });
       }
@@ -56,6 +57,7 @@ auth_router.post(
       if (response.data?.token) {
         res.cookie("Access-Token", response.data.token, {
           httpOnly: true,
+          sameSite: "lax",
           maxAge: 60 * 60 * 1000,
         });
       }
