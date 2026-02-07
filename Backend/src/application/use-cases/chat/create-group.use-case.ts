@@ -23,12 +23,7 @@ export class create_group_use_case {
       const decoded = this.decode_token_service.run(token);
 
       if (data.users.length == 0) {
-        let fail = {
-          status: 400,
-          message: "At least one user must be added to create a group",
-          error: "Bad Request",
-        };
-        return failure(fail);
+        return failure("should pick at least one user");
       }
 
       const sanitize_users = [...new Set([...data.users])];
@@ -36,12 +31,7 @@ export class create_group_use_case {
       const users = await this.user_repository.find_many_by_id(sanitize_users);
 
       if (users.length !== sanitize_users.length) {
-        let fail = {
-          status: 404,
-          message: "One or more users not found",
-          error: "Not Found",
-        };
-        return failure(fail);
+        return failure("Not Found");
       }
 
       if (!data.group_name) {
@@ -61,11 +51,7 @@ export class create_group_use_case {
         data,
       );
 
-      return success({
-        status: 201,
-        message: "Group created successfully",
-        data: new_group,
-      });
+      return success(new_group);
     } catch (error) {
       throw error;
     }
