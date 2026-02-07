@@ -4,7 +4,7 @@ import cors from "cors";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import { cors_options } from "./src/infrastructure/config/server/cors.config";
-import { not_found_handler } from "./src/presentation/middlewares/404-handler";
+import { not_found_handler } from "./src/presentation/middlewares/server/404-handler";
 import { index_router } from "./src/presentation/routes/index.route";
 import { PORT } from "./src/infrastructure/config/server/env";
 import { socket_module } from "./src/presentation/sockets/websocket.module";
