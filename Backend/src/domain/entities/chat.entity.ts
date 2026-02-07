@@ -7,5 +7,5 @@ export interface Chat {
   group_name?: String;
   created_at: Date;
   messages: Message[];
-  participant: Participant[];
+  participants: Participant[];
 }
