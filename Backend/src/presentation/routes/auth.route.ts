@@ -15,7 +15,7 @@ import {
   update_user_validation,
   user_login_validation,
 } from "../../infrastructure/external/validation/auth.validation";
-import { verify } from "../middlewares/verify.middleware";
+import { verify } from "../middlewares/server/verify.middleware";
 
 export const auth_router = express.Router();
 

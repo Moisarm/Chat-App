@@ -5,7 +5,7 @@ import express, {
 } from "express";
 import type { create_chat_dto } from "../../application/dto/chat.dto";
 import { chat_controller } from "../controllers/chat.controller";
-import { verify } from "../middlewares/verify.middleware";
+import { verify } from "../middlewares/server/verify.middleware";
 export const chat_router = express.Router();
 
 const controller = new chat_controller();
