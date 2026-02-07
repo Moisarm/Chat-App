@@ -11,12 +11,17 @@ export class socket_module {
       connectionStateRecovery: {},
     });
 
+    //Repositories
     const user_repository = new user_repository_implemented();
     const chat_repository = new chat_repository_implemented();
+
+    //Use Cases
     const new_group_use_case = new create_group_use_case(
       user_repository,
       chat_repository,
     );
+
+    //Controller
     const controller = new websocket_gateway(new_group_use_case);
 
     io.on("connection", (socket) => {
