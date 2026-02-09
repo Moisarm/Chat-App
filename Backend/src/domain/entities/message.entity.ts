@@ -1,5 +1,3 @@
-import type { User } from "./user.entity";
-
 export interface Message {
   id: string;
   chat_id: string;
