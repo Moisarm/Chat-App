@@ -1,20 +1,17 @@
 import { Server, type Socket } from "socket.io";
 
-import type { new_message_dto } from "../../application/dto/message.dto";
-
-import type {
-  create_chat_dto,
-  create_group_dto,
-} from "../../application/dto/chat.dto";
-
 import { create_group_use_case } from "../../application/use-cases/chat/create-group.use-case";
 
 import { decode_token_service } from "../../application/services/auth/decode-token.service";
 import { chat_handler } from "../handlers/chat.handler";
+import type { get_user_chat_use_case } from "../../application/use-cases/chat/get-users-chats.use-case";
 export class websocket_gateway {
   private readonly decode_token_service: decode_token_service;
 
-  constructor(private create_group_use_case: create_group_use_case) {
+  constructor(
+    private create_group_use_case: create_group_use_case,
+    private get_user_chats_use_case: get_user_chat_use_case,
+  ) {
     this.decode_token_service = new decode_token_service();
   }
 
@@ -43,6 +40,7 @@ export class websocket_gateway {
       io,
       socket,
       this.create_group_use_case,
+      this.get_user_chats_use_case,
     );
 
     chat_handler_import.handle_events(token);
