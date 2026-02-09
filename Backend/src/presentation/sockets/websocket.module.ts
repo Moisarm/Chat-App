@@ -4,6 +4,7 @@ import { websocket_gateway } from "./websocket.gateway";
 import { create_group_use_case } from "../../application/use-cases/chat/create-group.use-case";
 import { user_repository_implemented } from "../../infrastructure/repositories/user.repository";
 import { chat_repository_implemented } from "../../infrastructure/repositories/chat.repository";
+import { get_user_chat_use_case } from "../../application/use-cases/chat/get-users-chats.use-case";
 export class socket_module {
   public static init(http_server: http_server) {
     const io = new socket_server(http_server, {
@@ -21,8 +22,12 @@ export class socket_module {
       chat_repository,
     );
 
+    const users_chat_use_case = new get_user_chat_use_case(chat_repository);
     //Controller
-    const controller = new websocket_gateway(new_group_use_case);
+    const controller = new websocket_gateway(
+      new_group_use_case,
+      users_chat_use_case,
+    );
 
     io.on("connection", (socket) => {
       controller.on_connection(io, socket);
