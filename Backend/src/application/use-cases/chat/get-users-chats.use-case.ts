@@ -17,12 +17,7 @@ export class get_user_chat_use_case {
     const chats = await this.chat_repository.get_user_chat(decoded.user_id);
 
     if (chats.length == 0) {
-      let fail = {
-        status: 200,
-        message: "No chats yet",
-        error: "Empty table",
-      };
-      return failure(fail);
+      return failure("No chats registered");
     }
 
     return success(chats);
