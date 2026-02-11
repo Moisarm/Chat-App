@@ -5,6 +5,8 @@ import { create_group_use_case } from "../../application/use-cases/chat/create-g
 import { user_repository_implemented } from "../../infrastructure/repositories/user.repository";
 import { chat_repository_implemented } from "../../infrastructure/repositories/chat.repository";
 import { get_user_chat_use_case } from "../../application/use-cases/chat/get-users-chats.use-case";
+import { new_message_use_case } from "../../application/use-cases/message/new-message.use-case";
+import { message_repository_implemented } from "../../infrastructure/repositories/message.repository";
 export class socket_module {
   public static init(http_server: http_server) {
     const io = new socket_server(http_server, {
@@ -15,6 +17,7 @@ export class socket_module {
     //Repositories
     const user_repository = new user_repository_implemented();
     const chat_repository = new chat_repository_implemented();
+    const message_repository = new message_repository_implemented();
 
     //Use Cases
     const new_group_use_case = new create_group_use_case(
@@ -23,10 +26,16 @@ export class socket_module {
     );
 
     const users_chat_use_case = new get_user_chat_use_case(chat_repository);
+
+    const new_message_use_case_injection = new new_message_use_case(
+      user_repository,
+      message_repository,
+    );
     //Controller
     const controller = new websocket_gateway(
       new_group_use_case,
       users_chat_use_case,
+      new_message_use_case_injection,
     );
 
     io.on("connection", (socket) => {

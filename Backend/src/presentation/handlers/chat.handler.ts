@@ -16,9 +16,9 @@ export class chat_handler {
       this.socket.join(chat_id);
     });
 
-    this.socket.on("new_message", (data: new_message_dto) => {
+    /*this.socket.on("new_message", (data: new_message_dto) => {
       this.on_new_message(this.io, this.socket, data);
-    });
+    });*/
 
     this.socket.on("new_group", (data: create_group_dto) => {
       this.on_new_group(this.io, this.socket, token, data);
@@ -29,7 +29,7 @@ export class chat_handler {
     });
   }
 
-  private async on_new_message(
+  /*private async on_new_message(
     io: Server,
     socket: Socket,
     data: new_message_dto,
@@ -39,7 +39,7 @@ export class chat_handler {
       content: data.content,
       sender: socket.data.user_id,
     });
-  }
+  }*/
 
   private async on_new_group(
     io: Server,

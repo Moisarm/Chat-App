@@ -117,8 +117,6 @@ export class chat_repository_implemented implements chat_repository {
             },
           ],
         },
-        // Importante: No incluyas relaciones si no las necesitas para la validación inicial,
-        // o asegúrate de que los nombres coincidan con el schema
         include: {
           participants: true,
         },
