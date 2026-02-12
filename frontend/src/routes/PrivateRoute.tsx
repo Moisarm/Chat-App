@@ -9,6 +9,10 @@ type Props = {
 export default function PrivateRoute({ children }: Props) {
   const { state } = useAuth();
 
+  if (state.isLoading) {
+    return null;
+  }
+
   if (!state.isAuthenticated) {
     return <Navigate to="/" replace />;
   }

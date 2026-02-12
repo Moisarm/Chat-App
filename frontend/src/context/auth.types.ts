@@ -9,8 +9,10 @@ export type AuthState = {
   token: string | null;
   isAuthenticated: boolean;
   message: string | null;
+  isLoading: boolean;
 };
 
 export type AuthAction =
   | { type: "LOGIN"; payload: { user: User; token: string; message: string } }
-  | { type: "LOGOUT" };
+  | { type: "LOGOUT" }
+  | { type: "SET_LOADING"; payload: boolean };

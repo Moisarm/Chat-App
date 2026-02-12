@@ -16,7 +16,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     fetch(`${import.meta.env.VITE_API_URL}/auth/me`, {
       credentials: "include",
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error("Not authenticated");
+        return res.json();
+      })
       .then((data) => {
         if (data.data?.user) {
           dispatch({
@@ -27,9 +30,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               message: "",
             },
           });
+        } else {
+          dispatch({ type: "SET_LOADING", payload: false });
         }
       })
-      .catch(() => {});
+      .catch(() => {
+        dispatch({ type: "SET_LOADING", payload: false });
+      });
   }, []);
 
   return (
