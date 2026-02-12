@@ -12,21 +12,24 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(authReducer, authInitialState);
 
-  // 🔁 hidratar desde localStorage
   useEffect(() => {
-    const token = localStorage.getItem("access_token");
-    const user = localStorage.getItem("user");
-
-    if (token && user) {
-      dispatch({
-        type: "LOGIN",
-        payload: {
-          token,
-          user: JSON.parse(user),
-          message: "",
-        },
-      });
-    }
+    fetch(`${import.meta.env.VITE_API_URL}/auth/me`, {
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.data?.user) {
+          dispatch({
+            type: "LOGIN",
+            payload: {
+              token: "",
+              user: data.data.user,
+              message: "",
+            },
+          });
+        }
+      })
+      .catch(() => {});
   }, []);
 
   return (

@@ -69,6 +69,21 @@ auth_router.post(
   },
 );
 
+auth_router.get(
+  "/me",
+  verify,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      res.status(200).json({
+        status: 200,
+        data: { user: req.user },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
 auth_router.put(
   "/update",
   verify,

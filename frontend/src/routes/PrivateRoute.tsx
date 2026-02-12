@@ -1,14 +1,15 @@
 import { Navigate } from "react-router-dom";
 import React from "react";
+import { useAuth } from "../context/AuthContext";
 
 type Props = {
   children: React.ReactNode;
 };
 
 export default function PrivateRoute({ children }: Props) {
-  const token = localStorage.getItem("access_token");
+  const { state } = useAuth();
 
-  if (!token) {
+  if (!state.isAuthenticated) {
     return <Navigate to="/" replace />;
   }
 

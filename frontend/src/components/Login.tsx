@@ -35,6 +35,7 @@ export default function Login({ onSwitch }: Props) {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(data),
       });
 
@@ -42,22 +43,15 @@ export default function Login({ onSwitch }: Props) {
 
       const responseData = await res.json();
 
-      // extraer datos
       const user = responseData.data.user;
       const token = responseData.data.token;
       const message = responseData.message;
 
-      // persistencia
-      localStorage.setItem("access_token", token);
-      localStorage.setItem("user", JSON.stringify(user));
-
-      // estado global
       dispatch({
         type: "LOGIN",
         payload: { user, token, message },
       });
 
-      // navegación
       navigate("/home");
     } catch (err) {
       console.error(err);
