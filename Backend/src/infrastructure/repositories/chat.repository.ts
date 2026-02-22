@@ -39,17 +39,18 @@ export class chat_repository_implemented implements chat_repository {
         participants: {
           create: data.users.map((id) => ({
             user_id: id,
+            is_admin: id === current_user_id ? true : false,
           })),
         },
       },
       include: {
         participants: true,
-        messages: true,
       },
     });
 
     return new_group as unknown as Chat;
   }
+
   async find_chat_by_id(chat_id: string): Promise<Chat> {
     const chat = await prisma.chat.findUnique({
       where: { id: chat_id },

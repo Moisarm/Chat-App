@@ -26,7 +26,7 @@ export class create_group_use_case {
         return failure("should pick at least one user");
       }
 
-      const sanitize_users = [...new Set([...data.users])];
+      const sanitize_users = [...new Set([...data.users, decoded.user_id])];
 
       const users = await this.user_repository.find_many_by_id(sanitize_users);
 
