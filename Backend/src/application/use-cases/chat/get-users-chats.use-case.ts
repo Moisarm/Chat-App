@@ -1,4 +1,3 @@
-import { decode } from "jsonwebtoken";
 import type { chat_repository } from "../../../domain/repositories/chat.repository";
 import { decode_token_service } from "../../services/auth/decode-token.service";
 import { failure, success } from "../../../domain/result/result-pattern";
