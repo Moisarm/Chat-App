@@ -16,10 +16,6 @@ export class chat_handler {
       this.socket.join(chat_id);
     });
 
-    /*this.socket.on("new_message", (data: new_message_dto) => {
-      this.on_new_message(this.io, this.socket, data);
-    });*/
-
     this.socket.on("new_group", (data: create_group_dto) => {
       this.on_new_group(this.io, this.socket, token, data);
     });
@@ -28,18 +24,6 @@ export class chat_handler {
       this.on_get_chats(this.io, this.socket, token);
     });
   }
-
-  /*private async on_new_message(
-    io: Server,
-    socket: Socket,
-    data: new_message_dto,
-  ) {
-    console.log("Sendind message");
-    io.to(data.chat_id).emit("new_message", {
-      content: data.content,
-      sender: socket.data.user_id,
-    });
-  }*/
 
   private async on_new_group(
     io: Server,
@@ -58,7 +42,7 @@ export class chat_handler {
       const result = await this.create_group_use_case.run(token, data);
 
       if (!result.succes) {
-        return socket.emit("error", result.error);
+        return socket.emit("error", { message: result.error, code: 500 });
       }
 
       const new_group = result.data;
@@ -86,9 +70,8 @@ export class chat_handler {
       const result = await this.get_chats_use_case.run(token);
 
       if (!result.succes) {
-        return socket.emit("error", result.error);
+        return socket.emit("error", { message: result.error, code: 404 });
       }
-
       socket.emit("message_recieve", result.data);
     } catch (error) {
       console.error("Error Fetching Chats");
