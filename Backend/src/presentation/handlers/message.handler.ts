@@ -21,9 +21,28 @@ export class message_handler {
     data: new_message_dto,
   ) {
     console.log("Sendind message");
+
+    data = {
+      ...data,
+      sender_id: socket.data.user_id,
+    };
+
+    console.log(data);
+    const new_message_result = await this.new_message_use_case.run(
+      socket.data.user_id,
+      data,
+    );
+
+    if (!new_message_result.succes) {
+      return socket.emit("error", {
+        message: "Failed to send message",
+        code: 500,
+      });
+    }
+
     io.to(data.chat_id).emit("new_message", {
-      content: data.content,
-      sender: socket.data.user_id,
+      content: new_message_result.data.content,
+      sender: new_message_result.data.sender_id,
     });
   }
 }
