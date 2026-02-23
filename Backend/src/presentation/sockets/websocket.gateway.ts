@@ -53,6 +53,7 @@ export class websocket_gateway {
     );
 
     chat_handler_import.handle_events(token);
+    message_handler_import.handle_message_events();
 
     socket.on("disconnect", () =>
       console.log(`An user has disconnected id: ${socket.id}`),
