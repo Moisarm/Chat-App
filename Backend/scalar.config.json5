@@ -1,0 +1,11 @@
+{
+  subdomain: "write-it.apidocumentation.com",
+  references: [
+    {
+      name: "write-it API's",
+      path: "./src/infrastructure/external/docs/swagger.json",
+      description: "Write-it chat app endpoints documentation",
+    },
+  ],
+  guides: [],
+}
