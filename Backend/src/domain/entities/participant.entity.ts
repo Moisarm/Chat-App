@@ -2,11 +2,11 @@ import type { Chat } from "./chat.entity";
 import type { User } from "./user.entity";
 
 export interface Participant {
-  id: String;
-  user_id: String;
-  chat_id: String;
-  is_admin: Boolean;
+  id: string;
+  user_id: string;
+  chat_id: string;
+  is_admin: boolean;
 
-  user: User;
-  chat: Chat;
+  user?: User;
+  chat?: Chat;
 }
