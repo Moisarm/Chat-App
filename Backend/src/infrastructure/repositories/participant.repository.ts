@@ -28,9 +28,26 @@ export class participant_repository_implemented implements participant_repositor
     });
   }
 
-  async update_admin_status(
-    chat_id: string,
-    user_id: string,
-    status: boolean,
-  ) {}
+  async find_participant(chat_id: string, user_id: string) {
+    const participant = await prisma.participant.findFirst({
+      where: {
+        chat_id: chat_id,
+        user_id: user_id,
+      },
+    });
+
+    return participant;
+  }
+
+  async update_admin_status(participant: Participant) {
+    const participant_updated = await prisma.participant.update({
+      where: {
+        id: participant.id,
+      },
+      data: {
+        is_admin: !participant.is_admin,
+      },
+    });
+    return participant_updated;
+  }
 }
