@@ -1,6 +1,6 @@
+import type { Participant } from "../../domain/entities/participant.entity";
 import type { participant_repository } from "../../domain/repositories/participant.repository";
 import { prisma } from "../config/database/prisma.config";
-import type { Participant } from "../external/database/generated/prisma/client";
 
 export class participant_repository_implemented implements participant_repository {
   async add_participants(
@@ -37,6 +37,16 @@ export class participant_repository_implemented implements participant_repositor
     });
 
     return participant;
+  }
+
+  async find_participants_by_chat_id(chat_id: string): Promise<Participant[]> {
+    const participants = await prisma.participant.findMany({
+      where: {
+        chat_id: chat_id,
+      },
+    });
+
+    return participants;
   }
 
   async update_admin_status(participant: Participant) {
